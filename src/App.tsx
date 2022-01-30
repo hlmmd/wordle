@@ -11,6 +11,8 @@ import { AboutModal } from './components/modals/AboutModal'
 import { InfoModal } from './components/modals/InfoModal'
 import { StatsModal } from './components/modals/StatsModal'
 import {
+  WORD_LENGTH,
+  MAX_GUESS,
   WORDLE_TITLE,
   WIN_MESSAGES,
   GAME_COPIED_MESSAGE,
@@ -60,7 +62,7 @@ function App() {
     if (gameWasWon) {
       setIsGameWon(true)
     }
-    if (loaded.guesses.length === 6 && !gameWasWon) {
+    if (loaded.guesses.length === MAX_GUESS && !gameWasWon) {
       setIsGameLost(true)
     }
     return loaded.guesses
@@ -103,7 +105,7 @@ function App() {
   }, [isGameWon, isGameLost])
 
   const onChar = (value: string) => {
-    if (currentGuess.length < 5 && guesses.length < 6 && !isGameWon) {
+    if (currentGuess.length < WORD_LENGTH && guesses.length < MAX_GUESS && !isGameWon) {
       setCurrentGuess(`${currentGuess}${value}`)
     }
   }
@@ -116,7 +118,7 @@ function App() {
     if (isGameWon || isGameLost) {
       return
     }
-    if (!(currentGuess.length === 5)) {
+    if (!(currentGuess.length === WORD_LENGTH)) {
       setIsNotEnoughLetters(true)
       return setTimeout(() => {
         setIsNotEnoughLetters(false)
@@ -132,7 +134,7 @@ function App() {
 
     const winningWord = isWinningWord(currentGuess)
 
-    if (currentGuess.length === 5 && guesses.length < 6 && !isGameWon) {
+    if (currentGuess.length === WORD_LENGTH && guesses.length < MAX_GUESS && !isGameWon) {
       setGuesses([...guesses, currentGuess])
       setCurrentGuess('')
 
@@ -141,7 +143,7 @@ function App() {
         return setIsGameWon(true)
       }
 
-      if (guesses.length === 5) {
+      if (guesses.length === MAX_GUESS-1) {
         setStats(addStatsForCompletedGame(stats, guesses.length + 1))
         setIsGameLost(true)
       }
@@ -150,23 +152,6 @@ function App() {
 
   return (
     <div className="py-8 max-w-7xl mx-auto sm:px-6 lg:px-8">
-      <div className="flex w-80 mx-auto items-center mb-8 mt-12">
-        <h1 className="text-xl grow font-bold dark:text-white">
-          {WORDLE_TITLE}
-        </h1>
-        <SunIcon
-          className="h-6 w-6 cursor-pointer dark:stroke-white"
-          onClick={() => handleDarkMode(!isDarkMode)}
-        />
-        <InformationCircleIcon
-          className="h-6 w-6 cursor-pointer dark:stroke-white"
-          onClick={() => setIsInfoModalOpen(true)}
-        />
-        <ChartBarIcon
-          className="h-6 w-6 cursor-pointer dark:stroke-white"
-          onClick={() => setIsStatsModalOpen(true)}
-        />
-      </div>
       <Grid guesses={guesses} currentGuess={currentGuess} />
       <Keyboard
         onChar={onChar}
@@ -190,6 +175,23 @@ function App() {
           return setTimeout(() => setSuccessAlert(''), ALERT_TIME_MS)
         }}
       />
+      <div className="flex w-80 mx-auto items-center mb-8 mt-12">
+        <h1 className="text-xl grow font-bold dark:text-white">
+          {WORDLE_TITLE}
+        </h1>
+        <SunIcon
+          className="h-6 w-6 cursor-pointer dark:stroke-white"
+          onClick={() => handleDarkMode(!isDarkMode)}
+        />
+        <InformationCircleIcon
+          className="h-6 w-6 cursor-pointer dark:stroke-white"
+          onClick={() => setIsInfoModalOpen(true)}
+        />
+        <ChartBarIcon
+          className="h-6 w-6 cursor-pointer dark:stroke-white"
+          onClick={() => setIsStatsModalOpen(true)}
+        />
+      </div>
       <AboutModal
         isOpen={isAboutModalOpen}
         handleClose={() => setIsAboutModalOpen(false)}
@@ -200,9 +202,9 @@ function App() {
         className="mx-auto mt-8 flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 select-none"
         onClick={() => setIsAboutModalOpen(true)}
       >
+
         {ABOUT_GAME_MESSAGE}
       </button>
-
       <Alert message={NOT_ENOUGH_LETTERS_MESSAGE} isOpen={isNotEnoughLetters} />
       <Alert
         message={WORD_NOT_FOUND_MESSAGE}
