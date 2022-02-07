@@ -2,9 +2,9 @@ export const WORDLE_TITLE = '牛牛专属的Wordle'
 
 export const WORD_LENGTH = 10
 export const MAX_GUESS = 8
-export const WIN_MESSAGES = ['Great Job!', 'Awesome', 'Well done!', '牛牛牛!']
+export const WIN_MESSAGES = ['你太强啦!', '哇哦！', '你好有本领！', '牛牛牛!']
 export const GAME_COPIED_MESSAGE = 'Game copied to clipboard'
-export const ABOUT_GAME_MESSAGE = 'About'
+export const ABOUT_GAME_MESSAGE = 'Answer'
 export const NOT_ENOUGH_LETTERS_MESSAGE = 'Not enough letters'
 export const WORD_NOT_FOUND_MESSAGE = 'Word not found'
 export const CORRECT_WORD_MESSAGE = (solution: string) =>

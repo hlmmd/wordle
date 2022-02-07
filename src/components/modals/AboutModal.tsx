@@ -2,14 +2,15 @@ import { BaseModal } from './BaseModal'
 
 type Props = {
   isOpen: boolean
+  solution: string
   handleClose: () => void
 }
 
-export const AboutModal = ({ isOpen, handleClose }: Props) => {
+export const AboutModal = ({ isOpen, solution, handleClose }: Props) => {
   return (
-    <BaseModal title="About" isOpen={isOpen} handleClose={handleClose}>
+    <BaseModal title="" isOpen={isOpen} handleClose={handleClose}>
       <p className="text-sm text-gray-500 dark:text-gray-300">
-        This is an open source clone of the game Wordle -{' '}
+        {/* This is an open source clone of the game Wordle -{' '}
         <a
           href="https://github.com/hannahcode/wordle"
           className="underline font-bold"
@@ -21,8 +22,8 @@ export const AboutModal = ({ isOpen, handleClose }: Props) => {
           href="https://www.powerlanguage.co.uk/wordle/"
           className="underline font-bold"
         >
-          play the original here
-        </a>
+          play the original here  */}
+          {solution}
       </p>
     </BaseModal>
   )

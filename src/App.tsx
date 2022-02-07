@@ -194,6 +194,7 @@ function App() {
       </div>
       <AboutModal
         isOpen={isAboutModalOpen}
+        solution={solution}
         handleClose={() => setIsAboutModalOpen(false)}
       />
 
